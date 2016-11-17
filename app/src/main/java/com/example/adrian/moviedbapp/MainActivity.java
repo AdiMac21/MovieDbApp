@@ -1,8 +1,11 @@
 package com.example.adrian.moviedbapp;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.example.adrian.moviedbapp.Adapters.Adapter;
@@ -18,6 +21,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     private final String API_KEY = "954cab043b53e5e975bf32c68a043746";
     private GridView gg;
+    private ArrayList<Movie> go;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         linkUi();
         init();
+        setListener();
+    }
+
+    private void setListener() {
+        gg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, MovieDet.class);
+                intent.putExtra("movie", go.get(position));
+                startActivity(intent);
+
+
+            }
+        });
     }
 
     private void linkUi() {
@@ -39,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 if (response.isSuccessful()) {
 
-                    ArrayList<Movie> go = (response.body().getResults());
+                    go = (response.body().getResults());
                     Adapter adapter = new Adapter(MainActivity.this, go);
                     gg.setAdapter(adapter);
                 }

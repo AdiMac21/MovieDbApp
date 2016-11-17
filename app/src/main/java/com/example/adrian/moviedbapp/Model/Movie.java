@@ -1,10 +1,12 @@
 package com.example.adrian.moviedbapp.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by Adrian on 11/15/2016.
  */
 
-public class Movie {
+public class Movie implements Serializable {
     private String poster_path;
     private String original_title;
     private String overview;
