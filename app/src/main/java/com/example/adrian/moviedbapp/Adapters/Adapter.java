@@ -14,6 +14,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import static android.R.attr.name;
+
 /**
  * Created by Adrian on 11/16/2016.
  */
@@ -30,7 +32,10 @@ public class Adapter extends BaseAdapter {
         this.movies = movies;
 
     }
-
+private static class ViewHolder{
+    ImageView poster;
+    TextView name;
+}
     @Override
     public int getCount() {
         return movies.size();
@@ -48,20 +53,21 @@ public class Adapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = null;
+        ViewHolder viewHolder;
         if (convertView == null) {
             inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.cell_layout, parent, false);
-            ImageView poster = (ImageView) view.findViewById(R.id.iv_poster);
-            TextView name = (TextView) view.findViewById(R.id.mov_name);
-            Picasso.with(context).load(BASE_URL + movies.get(position).getPoster_path()).into(poster);
-            name.setText(movies.get(position).getOriginal_title().toString());
+            convertView = inflater.inflate(R.layout.cell_layout, parent, false);
+            viewHolder=new ViewHolder();
+            viewHolder.poster = (ImageView) convertView.findViewById(R.id.iv_poster);
+            viewHolder.name = (TextView) convertView.findViewById(R.id.mov_name);
+            convertView.setTag(viewHolder);
 
         } else {
-            view = convertView;
+            viewHolder = (ViewHolder) convertView.getTag();
         }
-
-        return view;
+        Picasso.with(context).load(BASE_URL + movies.get(position).getPoster_path()).into(viewHolder.poster);
+        viewHolder.name.setText(movies.get(position).getOriginal_title().toString());
+        return convertView;
     }
 }

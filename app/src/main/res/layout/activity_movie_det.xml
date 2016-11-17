@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_movie_det"
@@ -11,20 +13,37 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.adrian.moviedbapp.MovieDet">
-
     <ImageView
         android:id="@+id/im_pict"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1" />
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="2"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_det"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="2"
-        android:textAlignment="center"
+
+
         android:textColor="@color/white"
         android:textSize="16sp" />
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/grid_view"
+        android:columnWidth="140dp"
+        android:gravity="center"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth"/>
+
+
+</LinearLayout>
+
+
+
 </LinearLayout>
