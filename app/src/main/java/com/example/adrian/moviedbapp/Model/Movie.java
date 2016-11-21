@@ -11,6 +11,8 @@ public class Movie implements Serializable {
     private String original_title;
     private String overview;
     private long id;
+    private String backdrop_path;
+
 
     public String getPoster_path() {
         return poster_path;
@@ -29,11 +31,11 @@ public class Movie implements Serializable {
     }
 
     public String getBackdrop_path() {
-        return poster_path;
+        return backdrop_path;
     }
 
     public void setBackdrop_path(String backdrop_path) {
-        this.poster_path = backdrop_path;
+        this.backdrop_path = backdrop_path;
     }
 
     public String getOriginal_title() {

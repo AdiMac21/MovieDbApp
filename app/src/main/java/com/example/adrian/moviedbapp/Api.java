@@ -5,6 +5,7 @@ package com.example.adrian.moviedbapp;
  */
 
 
+import com.example.adrian.moviedbapp.Model.BackdropResponse;
 import com.example.adrian.moviedbapp.Model.MovieResponse;
 import com.example.adrian.moviedbapp.Model.PersonResponse;
 
@@ -25,4 +26,8 @@ public interface Api {
 
     @GET("movie/{movie_id}/credits?")
     Call<PersonResponse> getCast(@Path("movie_id") long id, @Query("api_key") String api_key);
+
+    @GET("movie/{movie_id}/images")
+    Call<BackdropResponse> getBackdrops(@Path("movie_id") long id, @Query("api_key") String api_key);
+
 }

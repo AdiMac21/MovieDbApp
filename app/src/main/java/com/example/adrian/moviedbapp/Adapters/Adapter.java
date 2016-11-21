@@ -6,15 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.adrian.moviedbapp.Model.Movie;
 import com.example.adrian.moviedbapp.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-
-import static android.R.attr.name;
 
 /**
  * Created by Adrian on 11/16/2016.
@@ -32,10 +29,7 @@ public class Adapter extends BaseAdapter {
         this.movies = movies;
 
     }
-private static class ViewHolder{
-    ImageView poster;
-    TextView name;
-}
+
     @Override
     public int getCount() {
         return movies.size();
@@ -60,14 +54,19 @@ private static class ViewHolder{
             convertView = inflater.inflate(R.layout.cell_layout, parent, false);
             viewHolder=new ViewHolder();
             viewHolder.poster = (ImageView) convertView.findViewById(R.id.iv_poster);
-            viewHolder.name = (TextView) convertView.findViewById(R.id.mov_name);
+//            viewHolder.name = (TextView) convertView.findViewById(R.id.mov_name);
             convertView.setTag(viewHolder);
 
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         Picasso.with(context).load(BASE_URL + movies.get(position).getPoster_path()).into(viewHolder.poster);
-        viewHolder.name.setText(movies.get(position).getOriginal_title().toString());
+//        viewHolder.name.setText(movies.get(position).getOriginal_title().toString());
         return convertView;
+    }
+
+    private static class ViewHolder {
+        ImageView poster;
+//    TextView name;
     }
 }

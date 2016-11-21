@@ -4,11 +4,16 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.GridView;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.adrian.moviedbapp.Adapters.AdapterPersons;
+import com.example.adrian.moviedbapp.Adapters.RecyclePersons;
+import com.example.adrian.moviedbapp.Model.Backdrop;
+import com.example.adrian.moviedbapp.Model.BackdropResponse;
 import com.example.adrian.moviedbapp.Model.Movie;
 import com.example.adrian.moviedbapp.Model.Person;
 import com.example.adrian.moviedbapp.Model.PersonResponse;
@@ -22,38 +27,75 @@ import retrofit2.Response;
 
 public class MovieDet extends AppCompatActivity {
     private final String API_KEY = "954cab043b53e5e975bf32c68a043746";
-    private final String BASE_URL = "https://image.tmdb.org/t/p/w370_and_h556_bestv2";
+    private final String BASE_URL = "https://image.tmdb.org/t/p/original";
     private TextView movieDet;
     private ImageView poster;
     private Movie movie;
     private ArrayList<Person> cast;
-    private AdapterPersons adapterPersons;
-    private GridView gridView;
+    private View view;
+    private RecyclerView recyclerView;
+    private RecyclePersons adapter;
+    private ArrayList<Backdrop> backdropss;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_det);
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        setContentView(R.layout.movie_det);
+
 
         linkUi();
         populate();
         init();
+        backdrops();
+        listener();
+    }
+
+    private void listener() {
+        poster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MovieDet.this, FragmentActivity.class);
+                intent.putExtra("backdrops", backdropss);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void backdrops() {
+        RestClient.getApi().getBackdrops(movie.getId(), API_KEY).enqueue(new Callback<BackdropResponse>() {
+            @Override
+            public void onResponse(Call<BackdropResponse> call, Response<BackdropResponse> response) {
+                if (response.isSuccessful()) {
+                    backdropss = (response.body().getBackdrops());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BackdropResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     private void populate() {
         Intent intent = getIntent();
 
         movie = (Movie) intent.getSerializableExtra("movie");
-        Picasso.with(MovieDet.this).load(BASE_URL + movie.getPoster_path()).into(poster);
-        movieDet.setText(movie.getOverview().toString());
+        Picasso.with(MovieDet.this).load(BASE_URL + movie.getBackdrop_path()).fit().centerCrop().into(poster);
+        view.setBackgroundResource(R.drawable.gradient);
+        movieDet.setText(movie.getOverview());
+
 
     }
 
     private void linkUi() {
-        poster = (ImageView) findViewById(R.id.im_pict);
-        movieDet = (TextView) findViewById(R.id.tv_det);
-        gridView= (GridView) findViewById(R.id.grid_view);
+        recyclerView = (RecyclerView) findViewById(R.id.recycle_crew);
+        poster = (ImageView) findViewById(R.id.movie_backdrop);
+        movieDet = (TextView) findViewById(R.id.tv_movie_desc);
+
+        view = findViewById(R.id.gradient);
     }
 
 
@@ -63,8 +105,14 @@ public class MovieDet extends AppCompatActivity {
             public void onResponse(Call<PersonResponse> call, Response<PersonResponse> response) {
                 if (response.isSuccessful()) {
                     cast = (response.body().getCast());
-                    adapterPersons = new AdapterPersons(MovieDet.this, cast);
-                    gridView.setAdapter(adapterPersons);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(MovieDet.this);
+                    layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                    layoutManager.scrollToPosition(0);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setHasFixedSize(true);
+                    adapter = new RecyclePersons(MovieDet.this, cast);
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setItemAnimator(new DefaultItemAnimator());
                 }
             }
 
