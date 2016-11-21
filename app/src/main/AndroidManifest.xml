@@ -18,7 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MovieDet" />
-        <activity android:name=".FragmentActivity"></activity>
+        <activity android:name=".FragmentActivity" />
+        <activity android:name=".Video"></activity>
     </application>
 
 </manifest>

@@ -36,14 +36,14 @@ public class MovieDet extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclePersons adapter;
     private ArrayList<Backdrop> backdropss;
+    private boolean moviedetBol = false;
+    private ImageView trailer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.movie_det);
-
-
         linkUi();
         populate();
         init();
@@ -57,6 +57,26 @@ public class MovieDet extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MovieDet.this, FragmentActivity.class);
                 intent.putExtra("backdrops", backdropss);
+                startActivity(intent);
+            }
+        });
+
+        movieDet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (moviedetBol) {
+                    movieDet.setMaxLines(1);
+                    moviedetBol = false;
+                } else {
+                    movieDet.setMaxLines(Integer.MAX_VALUE);
+                    moviedetBol = true;
+                }
+            }
+        });
+        trailer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MovieDet.this, Video.class);
                 startActivity(intent);
             }
         });
@@ -94,7 +114,7 @@ public class MovieDet extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycle_crew);
         poster = (ImageView) findViewById(R.id.movie_backdrop);
         movieDet = (TextView) findViewById(R.id.tv_movie_desc);
-
+        trailer = (ImageView) findViewById(R.id.trailer);
         view = findViewById(R.id.gradient);
     }
 

@@ -45,9 +45,9 @@ public class RecyclePersons extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(ListItemViewHolder holder, int position) {
-        holder.character.setText(cast.get(position).getCharacter());
+        holder.character.setText("as "+cast.get(position).getCharacter());
         holder.name.setText(cast.get(position).getName());
-        Picasso.with(context).load(BASE_URL + cast.get(position).getProfile_path()).fit().centerCrop().into(holder.face);
+        Picasso.with(context).load(BASE_URL + cast.get(position).getProfile_path()).fit().centerCrop().placeholder(R.drawable.images).into(holder.face);
     }
 
 

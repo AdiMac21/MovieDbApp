@@ -14,6 +14,11 @@
             android:id="@+id/movie_backdrop"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/photo_video"
+            android:id="@+id/trailer"/>
 
         <View
             android:id="@+id/gradient"
@@ -26,6 +31,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textColor="#aaffffff"
             android:textSize="12sp" />
 

@@ -60,7 +60,7 @@ public class Adapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        Picasso.with(context).load(BASE_URL + movies.get(position).getPoster_path()).into(viewHolder.poster);
+        Picasso.with(context).load(BASE_URL + movies.get(position).getPoster_path()).placeholder(R.drawable.placeholder_movieimage).into(viewHolder.poster);
 //        viewHolder.name.setText(movies.get(position).getOriginal_title().toString());
         return convertView;
     }

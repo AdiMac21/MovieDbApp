@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 System.out.println(firstVisibleItem + " " + visibleItemCount + " " + totalItemCount);
 
-                if (firstVisibleItem + visibleItemCount > totalItemCount - 4 && totalItemCount != 0) {
+                if (firstVisibleItem + visibleItemCount > totalItemCount - 8 && totalItemCount != 0) {
                     RestClient.getApi().getMovies(API_KEY, "en-US", "popularity.desc", false, false, count).enqueue(new Callback<MovieResponse>() {
                         @Override
                         public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
