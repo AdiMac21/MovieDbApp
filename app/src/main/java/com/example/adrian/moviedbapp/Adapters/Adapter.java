@@ -54,19 +54,19 @@ public class Adapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.cell_layout, parent, false);
             viewHolder=new ViewHolder();
             viewHolder.poster = (ImageView) convertView.findViewById(R.id.iv_poster);
-//            viewHolder.name = (TextView) convertView.findViewById(R.id.mov_name);
+
             convertView.setTag(viewHolder);
 
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        Picasso.with(context).load(BASE_URL + movies.get(position).getPoster_path()).placeholder(R.drawable.placeholder_movieimage).into(viewHolder.poster);
-//        viewHolder.name.setText(movies.get(position).getOriginal_title().toString());
+        Picasso.with(context).load(BASE_URL + movies.get(position).getPoster_path()).fit().centerCrop().placeholder(R.drawable.placeholder_movieimage).into(viewHolder.poster);
+
         return convertView;
     }
 
     private static class ViewHolder {
         ImageView poster;
-//    TextView name;
+
     }
 }

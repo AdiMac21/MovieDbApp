@@ -2,6 +2,7 @@ package com.example.adrian.moviedbapp;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -17,6 +18,8 @@ import com.example.adrian.moviedbapp.Model.BackdropResponse;
 import com.example.adrian.moviedbapp.Model.Movie;
 import com.example.adrian.moviedbapp.Model.Person;
 import com.example.adrian.moviedbapp.Model.PersonResponse;
+import com.example.adrian.moviedbapp.Model.Trailer;
+import com.example.adrian.moviedbapp.Model.TrailerResponse;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -24,6 +27,8 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.view.View.GONE;
 
 public class MovieDet extends AppCompatActivity {
     private final String API_KEY = "954cab043b53e5e975bf32c68a043746";
@@ -38,6 +43,9 @@ public class MovieDet extends AppCompatActivity {
     private ArrayList<Backdrop> backdropss;
     private boolean moviedetBol = false;
     private ImageView trailer;
+    private ArrayList<Trailer> trailers;
+    private Trailer theOne;
+    private String video_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +84,8 @@ public class MovieDet extends AppCompatActivity {
         trailer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MovieDet.this, Video.class);
-                startActivity(intent);
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + video_id));
+                startActivity(i);
             }
         });
     }
@@ -114,7 +122,7 @@ public class MovieDet extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycle_crew);
         poster = (ImageView) findViewById(R.id.movie_backdrop);
         movieDet = (TextView) findViewById(R.id.tv_movie_desc);
-        trailer = (ImageView) findViewById(R.id.trailer);
+        trailer = (ImageView) findViewById(R.id.trailer_picture);
         view = findViewById(R.id.gradient);
     }
 
@@ -138,6 +146,29 @@ public class MovieDet extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<PersonResponse> call, Throwable t) {
+
+            }
+        });
+
+        RestClient.getApi().getTrailer(movie.getId(), API_KEY).enqueue(new Callback<TrailerResponse>() {
+            @Override
+            public void onResponse(Call<TrailerResponse> call, Response<TrailerResponse> response) {
+                if (response.isSuccessful()) {
+                    trailers = (response.body().getResults());
+                    for (int i = 0; i < trailers.size(); i++) {
+                        if (trailers.get(i).getName().equals("Trailer")) {
+                            theOne = trailers.get(i);
+                            video_id = theOne.getId();
+                            break;
+                        } else {
+                            trailer.setVisibility(GONE);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TrailerResponse> call, Throwable t) {
 
             }
         });

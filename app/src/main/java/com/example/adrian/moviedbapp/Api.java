@@ -8,6 +8,7 @@ package com.example.adrian.moviedbapp;
 import com.example.adrian.moviedbapp.Model.BackdropResponse;
 import com.example.adrian.moviedbapp.Model.MovieResponse;
 import com.example.adrian.moviedbapp.Model.PersonResponse;
+import com.example.adrian.moviedbapp.Model.TrailerResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -30,4 +31,6 @@ public interface Api {
     @GET("movie/{movie_id}/images")
     Call<BackdropResponse> getBackdrops(@Path("movie_id") long id, @Query("api_key") String api_key);
 
+    @GET("movie/{movie_id}/videos")
+    Call<TrailerResponse> getTrailer(@Path("movie_id") long id, @Query("api_key") String api_key);
 }
