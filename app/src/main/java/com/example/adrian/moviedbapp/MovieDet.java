@@ -28,8 +28,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.view.View.GONE;
-
 public class MovieDet extends AppCompatActivity {
     private final String API_KEY = "954cab043b53e5e975bf32c68a043746";
     private final String BASE_URL = "https://image.tmdb.org/t/p/original";
@@ -156,12 +154,13 @@ public class MovieDet extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     trailers = (response.body().getResults());
                     for (int i = 0; i < trailers.size(); i++) {
-                        if (trailers.get(i).getName().equals("Trailer")) {
+                        if (trailers.get(i).getName().equals("Troco")) {
                             theOne = trailers.get(i);
                             video_id = theOne.getId();
+                            trailer.setVisibility(View.VISIBLE);
                             break;
                         } else {
-                            trailer.setVisibility(GONE);
+                            trailer.setVisibility(View.INVISIBLE);
                         }
                     }
                 }
