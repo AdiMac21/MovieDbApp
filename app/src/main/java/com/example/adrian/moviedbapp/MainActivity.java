@@ -1,9 +1,11 @@
 package com.example.adrian.moviedbapp;
 
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -35,6 +37,14 @@ public class MainActivity extends AppCompatActivity {
         linkUi();
         init();
         setListener();
+        notification();
+    }
+
+    private void notification() {
+        NotificationCompat.Builder builder=new NotificationCompat.Builder(MainActivity.this);
+        builder.setAutoCancel(true).setContentTitle("Please vote!").setContentText("Plase vote this app!!!").setSmallIcon(R.mipmap.ic_launcher);
+        NotificationManager manager= (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        manager.notify(2,builder.build());
     }
 
     private void setListener() {
